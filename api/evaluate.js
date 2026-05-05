@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
   const { audioBase64, mimeType, targetWord } = req.body;
@@ -77,4 +77,4 @@ Reply ONLY with valid JSON, no extra text:
       .status(500)
       .json({ correct: false, heard: "", feedback: "حصل خطأ" });
   }
-}
+};
