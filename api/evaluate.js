@@ -13,6 +13,10 @@ module.exports = async function handler(req, res) {
     formData.append("file", blob, `audio.${ext}`);
     formData.append("model", "whisper-1");
     formData.append("language", "en");
+    formData.append(
+      "prompt",
+      `The student will say one of these words: ${targetWord}`,
+    );
 
     const wRes = await fetch("https://api.openai.com/v1/audio/transcriptions", {
       method: "POST",
@@ -51,7 +55,9 @@ Reply ONLY with valid JSON, no extra text:
           },
           {
             role: "user",
-            content: `Target word: "${targetWord}". Whisper transcribed: "${heard}". Are these the same word or close enough?`,
+            content: `Target word: "${targetWord}". Whisper heard: "${heard}". 
+Do these refer to the same word? Consider that the child is Arabic-speaking aged 6-12 and may not pronounce perfectly. 
+Reply ONLY with valid JSON: {"correct": true or false, "feedback": "short Arabic feedback max 8 words"}`,
           },
         ],
         max_tokens: 100,
