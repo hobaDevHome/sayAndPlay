@@ -43,13 +43,15 @@ module.exports = async function handler(req, res) {
           {
             role: "system",
             content: `You evaluate English pronunciation for Arabic-speaking children aged 6-12.
-Be lenient and encouraging — accept the word if it is reasonably close to correct British pronunciation.
+The child is NOT a native speaker. Be VERY lenient.
+If Whisper managed to transcribe something close to the target word, consider it correct.
+Only mark wrong if what was heard is completely different from the target word.
 Reply ONLY with valid JSON, no extra text:
 {"correct": true or false, "feedback": "short encouraging Arabic feedback max 8 words"}`,
           },
           {
             role: "user",
-            content: `Target word: "${targetWord}". Whisper heard: "${heard}". Was pronunciation acceptable?`,
+            content: `Target word: "${targetWord}". Whisper transcribed: "${heard}". Are these the same word or close enough?`,
           },
         ],
         max_tokens: 100,
